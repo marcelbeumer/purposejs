@@ -1,0 +1,30 @@
+<!DOCTYPE "html">
+<html>
+    <head>
+        <script src="im.js"></script>
+        <script src="../src/pubsub.js"></script>
+        <script>
+            im(function(){
+                pp.relations.add('property', 'owner');
+                pp.relations.add('partner');
+                
+                var o = pp(app).find('*:main-navigation')[0];
+                var o = pp('*:main-navigation');
+                
+                var x = button();
+                pp(o).relate(x, 'property');
+                
+                
+                pp(this).find('property,partner:button,list[2,]');
+                pp(this).find('*:button && partner:*').filter('property:activator');
+                
+                pp(this).find('property:button');
+                
+            });
+        </script>
+    </head>
+    <body>
+        <strong class="w1">Widget 1</strong>
+        <strong class="w2">Widget 2</strong>
+    </body>
+</html>
