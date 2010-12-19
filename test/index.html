@@ -2,11 +2,83 @@
 <html>
     <head>
         <script src="im.js"></script>
-        <script src="../src/pubsub.js"></script>
+        <script src="../src/purpose.js"></script>
         <script>
             im(function(){
+                
+                // setup relations
                 pp.relations.add('property', 'owner');
                 pp.relations.add('partner');
+                pp.relations.add('publisher', 'subscriber');
+                pp.relations.add('editor', 'channel');
+                
+                
+                /*
+                API: 
+                
+                .find
+                .get
+                .purpose
+                .removePurpose
+                .relate
+                .unrelate
+                
+                */
+                
+                //----------------
+                
+                // implement publisher subscriber model with separate channels
+                
+                (function(){
+                    var channel = {};
+                    
+                    pp(channel).purpose('navigation-events').receive('editor:*', function(sender, topic, message){
+                        pp(this).find('subsriber:*').send(this, topic, message, 20); // with delay of 20ms
+                    });
+                    
+                })();
+                
+                // some other widget will subscribe to the navigation events channel
+
+                (function(){
+                    
+                    var other = {}; // ... other widget
+                    
+                    pp(other).relate(pp('navigation-events'), 'publisher');
+                    pp(other).receive('publisher:navigation-events', function(sender, topic, message){
+                        
+                    });
+                    
+                })();
+                
+                // widget will be editor for the navigation-events channel.
+                
+                (function(){
+                    
+                    var widget = {}; // ...
+
+                    pp(widget).relate(pp('navigation-events'), 'channel'); // nav-events is channel, so i am editor
+                    pp(widget).find('channel:*').send(widget, 'widget-initialized', true);
+                    
+                })();
+                
+                //----------------
+
+                //----------------
+                
+                pp(b).relate(pp('navigation-events'), 'subscriber');
+                
+                pp(b).receive('publisher:*', function(sender, topic, message) {
+                    
+                });
+
+                pp(b).receive(pp(b).find('property:*'), function(sender, topic, message) {
+                    
+                });
+                
+                //----------------
+                
+                
                 
                 var o = pp(app).find('*:main-navigation')[0];
                 var o = pp('*:main-navigation');
@@ -14,11 +86,12 @@
                 var x = button();
                 pp(o).relate(x, 'property');
                 
+                pp(o).find('property,partner:button,list[2,]');
+                pp(o).find('*:button && partner:*').filter('property:activator');
                 
-                pp(this).find('property,partner:button,list[2,]');
-                pp(this).find('*:button && partner:*').filter('property:activator');
+                pp(o).find('property:button');
                 
-                pp(this).find('property:button');
+                pp(o).find('subscriber:*').send('value-changed', 20);
                 
             });
         </script>
