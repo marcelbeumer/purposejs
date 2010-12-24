@@ -81,13 +81,14 @@
                 
                 
                 var o = pp(app).find('*:main-navigation')[0];
-                var o = pp('*:main-navigation');
+                var o = pp('main-navigation'); // global search, only on purpose (relation with nothing does not exist.. :))
                 
                 var x = button();
                 pp(o).relate(x, 'property');
                 
                 pp(o).find('property,partner:button,list[2,]');
                 pp(o).find('*:button && partner:*').filter('property:activator');
+                pp(o).find('*:button && partner:*'); // global
                 
                 pp(o).find('property:button');
                 
