@@ -2,7 +2,8 @@
 <html>
     <head>
         <script src="im.js"></script>
-        <script src="../src/purpose.js"></script>
+        <script src="../src/purpose.core.js"></script>
+        <script src="../src/purpose.struct.js"></script>
         <script>
             im(function(){
                 
@@ -11,7 +12,6 @@
                 pp.relations.add('partner');
                 pp.relations.add('publisher', 'subscriber');
                 pp.relations.add('editor', 'channel');
-                
                 
                 /*
                 API: 
@@ -37,6 +37,9 @@
                     });
                     
                 })();
+                
+                return;
+                
                 
                 // some other widget will subscribe to the navigation events channel
 
